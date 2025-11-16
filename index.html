@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+    <script id="type" src="./sketch.js"></script>
+    <title>Rumpus Type Locked</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" 
+    rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="container">
+        <!-- <div id="slider-controls">
+            <div class="slider-packets">
+                <label for="main-amp" class="slider-label">Main Amplitude</label>
+                <input type="range" class="slider" min="0" max="140" id="main-amp" name="main-amp" value="50">
+                <span class="slider-value" id="main-amp-val"></span>
+            </div>
+
+            <div class="slider-packets">
+                <label for="amb-amp" class="slider-label">Ambient Amplitude</label>
+                <input type="range" class="slider" min="0" max="20" id="amb-amp" name="amb-amp" value="9">
+                <span class="slider-value" id="amb-amp-val"></span>
+            </div>
+
+            <div class="slider-packets">
+                <label for="offset" class="slider-label">Offset</label>
+                <input type="range" class="slider" min="0" max="10" id="offset" name="offset" value="2">
+                <span class="slider-value" id="offset-val"></span>
+            </div>
+
+            <div class="slider-packets">
+                <label for="speed" class="slider-label">Speed</label>
+                <input type="range" class="slider" min="1" max="10" id="speed" name="speed" value="5">
+                <span class="slider-value" id="speed-val"></span>
+            </div>
+
+            <div class="slider-packets">
+                <label for="tiles" class="slider-label">Tiles</label>
+                <input type="range" class="slider" min="5" max="180" id="tiles" name="tiles" value="140">
+                <span class="slider-value" id="tiles-val"></span>
+            </div>
+
+            <div class="slider-packets">
+                <label for="mouse-affector" class="slider-label">Mouse Affector</label>
+                <input type="range" class="slider" min="50" max="500" id="mouse-affector" name="mouse-affector"
+                    value="120">
+                <span class="slider-value" id="mouse-affector-val"></span>
+            </div>
+
+            <div class="button-packets">
+                <button id="img-text-switch">Use Img</button>
+            </div>
+
+
+        </div> -->
+        <div id="kinetic-type">
+            
+        </div>
+
+        <div id="img-footer">
+
+            <div class="img-packets">
+                <button id="img-white-bg">Is Type</button>
+            </div>
+
+            <div class="img-packets">
+                <label class="slider-label" for="img-upload"></label>
+                <input type="file" name="img-upload" id="img-upload" accept="image/*" class="upload-input">
+            </div>
+
+            <div class="img-packets">
+                <button id="img-fill-canvas">Fill Canvas</button>
+            </div>
+
+        </div>
+
+        <div id="footer">
+            <div class="text-packets">
+                <label for="main-text" class="text-label">Text(Case Sensitive)</label>
+                <textarea class="text-value" id="main-text" name="main-text" rows="3" cols="25">The Rumpus</textarea>
+            </div>
+
+            <!-- <div id="text-sliders">
+
+                <div class="slider-packets">
+                    <label for="leading" class="slider-label">Text Leading</label>
+                    <input type="range" class="slider" min="80" max="280" id="leading" name="leading" value="120">
+                    <span class="slider-value" id="leading-val"></span>
+                </div>
+
+                <div class="slider-packets">
+                    <label for="font-size" class="slider-label">Font Size</label>
+                    <input type="range" class="slider" min="100" max="600" id="font-size" name="font-size" value="210">
+                    <span class="slider-value" id="font-size-val"></span>
+                </div>
+
+            </div> -->
+            <div id="text-options">
+
+                <div class="slider-packets">
+                    <label class="slider-label" for="fonts-select">Fonts</label>
+                    <select class="options" name="fonts-select" id="fonts-select">
+                        <option value="ivoryMedium">Ivory Medium</option>
+                        <option value="ivoryBold">Ivory Bold</option>
+                        <option value="ivoryItalic">Ivory Italic</option>
+                        <option value="eugenio">Eugenio</option>
+                    </select>
+                </div>
+
+                <div class="slider-packets">
+                    <label class="slider-label" for="align-select">Alignment</label>
+                    <select class="options" name="align-select" id="align-select">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- <div id="footnote">
+            <span>Press '`' or '/' to record. This will not work with Safari.</span>
+        </div> -->
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,326 @@
+//Env Setup
+let pg;
+let ivoryMedium, ivoryBold, ivoryItalic, eugenio;
+let cnv;
+let img;
+
+//record setup
+let recording = false;
+let recorder;
+let chunks = [];
+
+//Switchers
+let useImg = false;
+let fillCanvas = false;
+let imgWhiteBg = false;
+
+//Preload Text///////////////////////////////////////////////////////////////
+function preload() {
+  ivoryMedium = loadFont('./Fonts/IvoryDisplayLL-Medium.otf');
+  ivoryBold = loadFont('./Fonts/IvoryDisplayTrialTT-Bold.ttf');
+  ivoryItalic = loadFont('./Fonts/IvoryDisplayTrialTT-BoldItalic.ttf');
+  eugenio = loadFont('./Fonts/EugenioSerifPoster-BlackItalic-Trial.otf');
+  img = loadImage('test img.png');
+}
+
+//Recording Setup///////////////////////////////////////////////////////////
+// function record() {
+//   chunks.length = 0;
+
+//   let stream = document.querySelector('canvas').captureStream(30);
+
+//   if (!MediaRecorder.isTypeSupported('video/webm; codecs="vp9"')) {
+//     console.warn("VP9 not supported. Falling back.");
+//   }
+
+//   recorder = new MediaRecorder(stream, {
+//     mimeType: 'video/webm; codecs="vp9"',
+//     videoBitsPerSecond: 30_000_000
+//   });
+
+//   recorder.ondataavailable = e => {
+//     if (e.data.size) {
+//       chunks.push(e.data);
+//     }
+//   };
+
+//   recorder.onstop = exportVideo;
+// }
+
+// function exportVideo(e) {
+//   var blob = new Blob(chunks, { 'type': 'video/webm' });
+
+//   // Draw video to screen
+//   var videoElement = document.createElement('video');
+//   videoElement.setAttribute("id", Date.now());
+//   videoElement.controls = true;
+//   document.body.appendChild(videoElement);
+//   videoElement.src = window.URL.createObjectURL(blob);
+
+//   // Download the video 
+//   var url = URL.createObjectURL(blob);
+//   var a = document.createElement('a');
+//   document.body.appendChild(a);
+//   a.style = 'display: none';
+//   a.href = url;
+//   a.download = 'a-beautiful-video.webm';
+//   a.click();
+//   window.URL.revokeObjectURL(url);
+
+// }
+
+
+//Main Sketch Setup////////////////////////////////////////////////////////////
+
+function setup() {
+  cnv = createCanvas(960, int(200), P2D);
+  cnv.parent('kinetic-type');
+  pg = createGraphics(width, height, P2D);
+  frameRate(30);
+
+  // record();
+
+  // // Setup live slider display updates
+  // const sliders = [
+  //   { id: 'main-amp' },
+  //   { id: 'amb-amp' },
+  //   { id: 'tiles' },
+  //   { id: 'mouse-affector' },
+  //   { id: 'leading' },
+  //   { id: 'font-size' },
+  //   { id: 'offset' },
+  //   { id: 'speed' }
+  // ];
+
+  // sliders.forEach(({ id }) => {
+  //   const slider = document.getElementById(id);
+
+  //   // Create a span element if not already present
+  //   let display = document.getElementById(`${id}-val`);
+  //   if (!display) {
+  //     display = document.createElement("span");
+  //     display.id = `${id}-val`;
+  //     slider.parentNode.appendChild(display);
+  //   }
+
+  //   // Set initial value
+  //   display.textContent = slider.value;
+
+  //   // Update value on input
+  //   slider.addEventListener('input', () => {
+  //     display.textContent = slider.value;
+  //   });
+  // });
+
+  // //Switchers
+
+  // let footer = document.getElementById("footer");
+  // let imgFooter = document.getElementById("img-footer");
+  // let switcher = document.getElementById("img-text-switch");
+
+  // switcher.addEventListener("click", () => {
+  //   useImg = !useImg;
+  //   footer.style.display = useImg ? "none" : "flex";
+  //   imgFooter.style.display = useImg ? "flex" : "none";
+  //   switcher.style.backgroundColor = useImg ? "#FFCBD7" : "grey";
+  //   switcher.style.color = useImg ? "black" : "whitesmoke";
+  // });
+
+  // let canvasSwitcher = document.getElementById("img-fill-canvas");
+
+  // canvasSwitcher.addEventListener("click", () => {
+  //   fillCanvas = !fillCanvas;
+  //   canvasSwitcher.style.backgroundColor = fillCanvas ? "#FFCBD7" : "grey";
+  //   canvasSwitcher.style.color = useImg ? "black" : "whitesmoke";
+  // });
+
+  // let bgSwitcher = document.getElementById("img-white-bg");
+
+  // bgSwitcher.addEventListener("click", () => {
+  //   imgWhiteBg = !imgWhiteBg;
+  //   bgSwitcher.style.backgroundColor = imgWhiteBg ? "#FFCBD7" : "grey";
+  //   bgSwitcher.style.color = useImg ? "black" : "whitesmoke";
+  // })
+
+  // //Image Upload
+
+  // let imgUploadInput = document.getElementById("img-upload");
+
+  // imgUploadInput.addEventListener("change", (e) => {
+  //   let file = e.target.files[0];
+  //   if (file && file.type.startsWith("image/")) {
+  //     let reader = new FileReader();
+  //     reader.onload = function (event) {
+  //       loadImage(event.target.result, loadedImg => {
+  //         img = loadedImg; // Replace the default image
+  //       });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // });
+}
+
+function keyPressed() {
+  if (key === '`' || key === '/') {
+    recording = !recording;
+    if (recording) {
+      console.log("Recording started!");
+      recorder.start();
+    } else {
+      console.log("Recording stopped!");
+      recorder.stop();
+    }
+  }
+}
+
+
+function draw() {
+
+  //Global Vars
+  let mainAmp = 45;
+  let ambAmp = 3;
+  let tiles = 150;
+  let mouseDist = 120;
+  let mainText = document.getElementById("main-text").value;
+  let leadingValue = 133;
+  let fontSize = 140;
+  let fontSelect = document.getElementById("fonts-select").value;
+  let alignSelect = document.getElementById("align-select").value;
+  let offsetMultiplier = 3;
+  let speedMultiplier = 0.1;
+
+  background(255);
+
+  pg.background(255);
+  pg.fill(0);
+
+  if (useImg) {
+
+    let scaledWidth = pg.height * (img.width / img.height);
+    let scaledHeight = pg.width * (img.height / img.width);
+    let xOffset = (pg.width - scaledWidth) / 2;
+    let yOffset = (pg.height - scaledHeight) / 2;
+
+    if (fillCanvas) {
+      pg.image(img, 0, yOffset, width, width * img.height / img.width);
+    } else {
+      pg.image(img, xOffset, 0, height * img.width / img.height, height);
+    }
+
+
+  } else {
+
+    let font;
+    switch (fontSelect) {
+      case 'ivoryMedium': font = ivoryMedium; break;
+      case 'ivoryBold': font = ivoryBold; break;
+      case 'ivoryItalic': font = ivoryItalic; break;
+      case 'eugenio': font = eugenio; break;
+      default: font = eugenio; break;
+    }
+
+    let align;
+    switch (alignSelect) {
+      case 'left': align = LEFT; break;
+      case 'right': align = RIGHT; break;
+      case 'center': align = CENTER; break;
+      default: align = CENTER; break;
+    }
+
+    let x;
+    switch (align) {
+      case LEFT:
+        x = width / 2 - pg.textWidth(mainText) / 2;
+        break;
+      case RIGHT:
+        x = width / 2 + pg.textWidth(mainText) / 2;
+        break;
+      case CENTER:
+      default:
+        x = width / 2;
+        break;
+    }
+
+    pg.textFont(font);
+    pg.textSize(fontSize);
+    pg.textAlign(align, CENTER);
+    pg.textLeading(leadingValue);
+    pg.text(mainText, x, height / 2);
+  }
+
+  //Set up tiles
+  let tilesX = tiles;
+  let tilesY = Math.round((tilesX * height) / width);
+  let tileW = (width / tilesX);
+  let tileH = (height / tilesY);
+  let maxDist = mouseDist + cos(frameCount * speedMultiplier) * (mouseDist / 2);
+  let maxAmbDist = mouseDist * 5.5;
+
+  for (let y = 0; y < tilesY; y++) {
+    for (let x = 0; x < tilesX; x++) {
+
+      //Define Displacement
+      let wave;
+      let ambient;
+
+      //Source
+      let sx = Math.floor(x * tileW);
+      let sy = Math.floor(y * tileH);
+      let sw = Math.ceil(tileW);
+      let sh = Math.ceil(tileH);
+
+      //Destination
+      let dx = sx;
+      let dy = sy;
+      let dw = sw;
+      let dh = sh;
+
+      //Tile Centers
+      let cx = sx + tileW / 2;
+      let cy = sy + tileH / 2;
+
+      //Mouse Distance
+      let distance = dist(pmouseX - 2, pmouseY - 4, cx, cy);
+      let ambDist = map(distance, 0, maxAmbDist, 1, 0);
+
+      distance = constrain(distance, 0, maxDist);
+      distance = map(distance, 0, maxDist, 1, 0);
+
+      //Assign Displacements
+
+      wave = int(sin(frameCount * speedMultiplier + (x + y) * offsetMultiplier * 0.1) * mainAmp * distance);
+
+      if (useImg && imgWhiteBg === false) {
+
+        ambient = (sin(frameCount * speedMultiplier + floor(x + y) * offsetMultiplier) * ambAmp * distance);
+
+        sx += ambient;
+
+      } else {
+
+        ambient = (sin(frameCount * speedMultiplier * 2 + floor((x + y) / (height / width)) * offsetMultiplier) * ambAmp * ambDist);
+
+        dx += wave;
+        sw += ambient;
+      }
+
+      // Final Copy //
+      copy(pg, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+  }
+
+  //Maintain borders of image
+  if (useImg && fillCanvas === false) {
+    // Calculate scaled dimensions to determine the actual image area
+    let aspectRatio = img.width / img.height;
+    let scaledWidth = height * aspectRatio;
+    let xOffset = (width - scaledWidth) / 2;
+
+    noStroke();
+    fill(255); // white
+
+    // Draw white rects on the left and right of the image
+    rect(0, 0, xOffset, height);
+    rect(width - xOffset, 0, xOffset, height);
+  }
+}

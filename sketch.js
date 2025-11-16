@@ -53,24 +53,8 @@ function draw() {
   pg.background(255);
   pg.fill(0);
 
-  if (useImg) {
-
-    let scaledWidth = pg.height * (img.width / img.height);
-    let scaledHeight = pg.width * (img.height / img.width);
-    let xOffset = (pg.width - scaledWidth) / 2;
-    let yOffset = (pg.height - scaledHeight) / 2;
-
-    if (fillCanvas) {
-      pg.image(img, 0, yOffset, width, width * img.height / img.width);
-    } else {
-      pg.image(img, xOffset, 0, height * img.width / img.height, height);
-    }
-
-
-  } else {
-
-    let font;
-    switch (fontSelect) {
+  let font;
+  switch (fontSelect) {
       case 'ivoryMedium': font = ivoryMedium; break;
       case 'ivoryBold': font = ivoryBold; break;
       case 'ivoryItalic': font = ivoryItalic; break;
@@ -78,16 +62,16 @@ function draw() {
       default: font = eugenio; break;
     }
 
-    let align;
-    switch (alignSelect) {
+  let align;
+  switch (alignSelect) {
       case 'left': align = LEFT; break;
       case 'right': align = RIGHT; break;
       case 'center': align = CENTER; break;
       default: align = CENTER; break;
     }
 
-    let x;
-    switch (align) {
+  let x;
+  switch (align) {
       case LEFT:
         x = width / 2 - pg.textWidth(mainText) / 2;
         break;
@@ -105,7 +89,6 @@ function draw() {
     pg.textAlign(align, CENTER);
     pg.textLeading(leadingValue);
     pg.text(mainText, x, height / 2);
-  }
 
   //Set up tiles
   let tilesX = tiles;
@@ -149,19 +132,10 @@ function draw() {
 
       wave = int(sin(frameCount * speedMultiplier + (x + y) * offsetMultiplier * 0.1) * mainAmp * distance);
 
-      if (useImg && imgWhiteBg === false) {
+      ambient = (sin(frameCount * speedMultiplier * 2 + floor((x + y) / (height / width)) * offsetMultiplier) * ambAmp * ambDist);
 
-        ambient = (sin(frameCount * speedMultiplier + floor(x + y) * offsetMultiplier) * ambAmp * distance);
-
-        sx += ambient;
-
-      } else {
-
-        ambient = (sin(frameCount * speedMultiplier * 2 + floor((x + y) / (height / width)) * offsetMultiplier) * ambAmp * ambDist);
-
-        dx += wave;
-        sw += ambient;
-      }
+      dx += wave;
+      sw += ambient;
 
       // Final Copy //
       copy(pg, sx, sy, sw, sh, dx, dy, dw, dh);

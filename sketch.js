@@ -4,10 +4,6 @@ let ivoryMedium, ivoryBold, ivoryItalic, eugenio;
 let cnv;
 let img;
 
-//record setup
-let recording = false;
-let recorder;
-let chunks = [];
 
 //Switchers
 let useImg = false;
@@ -23,51 +19,6 @@ function preload() {
   img = loadImage('test img.png');
 }
 
-//Recording Setup///////////////////////////////////////////////////////////
-// function record() {
-//   chunks.length = 0;
-
-//   let stream = document.querySelector('canvas').captureStream(30);
-
-//   if (!MediaRecorder.isTypeSupported('video/webm; codecs="vp9"')) {
-//     console.warn("VP9 not supported. Falling back.");
-//   }
-
-//   recorder = new MediaRecorder(stream, {
-//     mimeType: 'video/webm; codecs="vp9"',
-//     videoBitsPerSecond: 30_000_000
-//   });
-
-//   recorder.ondataavailable = e => {
-//     if (e.data.size) {
-//       chunks.push(e.data);
-//     }
-//   };
-
-//   recorder.onstop = exportVideo;
-// }
-
-// function exportVideo(e) {
-//   var blob = new Blob(chunks, { 'type': 'video/webm' });
-
-//   // Draw video to screen
-//   var videoElement = document.createElement('video');
-//   videoElement.setAttribute("id", Date.now());
-//   videoElement.controls = true;
-//   document.body.appendChild(videoElement);
-//   videoElement.src = window.URL.createObjectURL(blob);
-
-//   // Download the video 
-//   var url = URL.createObjectURL(blob);
-//   var a = document.createElement('a');
-//   document.body.appendChild(a);
-//   a.style = 'display: none';
-//   a.href = url;
-//   a.download = 'a-beautiful-video.webm';
-//   a.click();
-//   window.URL.revokeObjectURL(url);
-
-// }
 
 
 //Main Sketch Setup////////////////////////////////////////////////////////////
@@ -78,99 +29,7 @@ function setup() {
   pg = createGraphics(width, height, P2D);
   frameRate(30);
 
-  // record();
-
-  // // Setup live slider display updates
-  // const sliders = [
-  //   { id: 'main-amp' },
-  //   { id: 'amb-amp' },
-  //   { id: 'tiles' },
-  //   { id: 'mouse-affector' },
-  //   { id: 'leading' },
-  //   { id: 'font-size' },
-  //   { id: 'offset' },
-  //   { id: 'speed' }
-  // ];
-
-  // sliders.forEach(({ id }) => {
-  //   const slider = document.getElementById(id);
-
-  //   // Create a span element if not already present
-  //   let display = document.getElementById(`${id}-val`);
-  //   if (!display) {
-  //     display = document.createElement("span");
-  //     display.id = `${id}-val`;
-  //     slider.parentNode.appendChild(display);
-  //   }
-
-  //   // Set initial value
-  //   display.textContent = slider.value;
-
-  //   // Update value on input
-  //   slider.addEventListener('input', () => {
-  //     display.textContent = slider.value;
-  //   });
-  // });
-
-  // //Switchers
-
-  // let footer = document.getElementById("footer");
-  // let imgFooter = document.getElementById("img-footer");
-  // let switcher = document.getElementById("img-text-switch");
-
-  // switcher.addEventListener("click", () => {
-  //   useImg = !useImg;
-  //   footer.style.display = useImg ? "none" : "flex";
-  //   imgFooter.style.display = useImg ? "flex" : "none";
-  //   switcher.style.backgroundColor = useImg ? "#FFCBD7" : "grey";
-  //   switcher.style.color = useImg ? "black" : "whitesmoke";
-  // });
-
-  // let canvasSwitcher = document.getElementById("img-fill-canvas");
-
-  // canvasSwitcher.addEventListener("click", () => {
-  //   fillCanvas = !fillCanvas;
-  //   canvasSwitcher.style.backgroundColor = fillCanvas ? "#FFCBD7" : "grey";
-  //   canvasSwitcher.style.color = useImg ? "black" : "whitesmoke";
-  // });
-
-  // let bgSwitcher = document.getElementById("img-white-bg");
-
-  // bgSwitcher.addEventListener("click", () => {
-  //   imgWhiteBg = !imgWhiteBg;
-  //   bgSwitcher.style.backgroundColor = imgWhiteBg ? "#FFCBD7" : "grey";
-  //   bgSwitcher.style.color = useImg ? "black" : "whitesmoke";
-  // })
-
-  // //Image Upload
-
-  // let imgUploadInput = document.getElementById("img-upload");
-
-  // imgUploadInput.addEventListener("change", (e) => {
-  //   let file = e.target.files[0];
-  //   if (file && file.type.startsWith("image/")) {
-  //     let reader = new FileReader();
-  //     reader.onload = function (event) {
-  //       loadImage(event.target.result, loadedImg => {
-  //         img = loadedImg; // Replace the default image
-  //       });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // });
-}
-
-function keyPressed() {
-  if (key === '`' || key === '/') {
-    recording = !recording;
-    if (recording) {
-      console.log("Recording started!");
-      recorder.start();
-    } else {
-      console.log("Recording stopped!");
-      recorder.stop();
-    }
-  }
+  
 }
 
 
@@ -309,18 +168,5 @@ function draw() {
     }
   }
 
-  //Maintain borders of image
-  if (useImg && fillCanvas === false) {
-    // Calculate scaled dimensions to determine the actual image area
-    let aspectRatio = img.width / img.height;
-    let scaledWidth = height * aspectRatio;
-    let xOffset = (width - scaledWidth) / 2;
-
-    noStroke();
-    fill(255); // white
-
-    // Draw white rects on the left and right of the image
-    rect(0, 0, xOffset, height);
-    rect(width - xOffset, 0, xOffset, height);
-  }
+  
 }

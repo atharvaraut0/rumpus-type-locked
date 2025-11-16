@@ -2,13 +2,7 @@
 let pg;
 let ivoryMedium, ivoryBold, ivoryItalic, eugenio;
 let cnv;
-let img;
 
-
-//Switchers
-let useImg = false;
-let fillCanvas = false;
-let imgWhiteBg = false;
 
 //Preload Text///////////////////////////////////////////////////////////////
 function preload() {
